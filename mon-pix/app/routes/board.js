@@ -1,13 +1,11 @@
-import { inject as service } from '@ember/service';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import Route from '@ember/routing/route';
 import RSVP from 'rsvp';
 
 export default Route.extend(AuthenticatedRouteMixin, {
-  session: service(),
 
   model() {
-    return this.store.findRecord('user', this.get('session.data.authenticated.userId'))
+    return this.store.queryRecord('user', {})
       .then((user) => {
         if (user.get('organizations.length') <= 0) {
           return this.transitionTo('compte');

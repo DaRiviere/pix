@@ -10,10 +10,5 @@ export default ApplicationAdapter.extend({
     const url = this.buildURL('user', 'me');
     return this.ajax(url, 'GET');
   },
-
-  findRecord() {
-    const url = this.buildURL('user', 'me');
-    return this.ajax(url, 'GET');
-  }
-
+  
 });

@@ -9,8 +9,7 @@ export default Route.extend(UnauthenticatedRouteMixin, {
 
   beforeModel() {
     if (this.get('session.isAuthenticated')) {
-      return this.store
-        .findRecord('user', this.get('session.data.authenticated.userId'))
+      return this.store.queryRecord('user', {})
         .then((connectedUser) => {
 
           if (connectedUser.get('organizations.length')) {

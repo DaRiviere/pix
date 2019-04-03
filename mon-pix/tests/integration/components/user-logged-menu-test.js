@@ -18,7 +18,7 @@ describe('Integration | Component | user logged menu', function() {
     beforeEach(function() {
       // given
       this.register('service:store', Service.extend({
-        findRecord() {
+        queryRecord() {
           return resolve({
             firstName: 'FHI',
             lastName: '4EVER',
@@ -188,7 +188,7 @@ describe('Integration | Component | user logged menu', function() {
   describe('when user is unlogged or not found', function() {
     beforeEach(function() {
       this.register('service:store', Service.extend({
-        findRecord() {
+        queryRecord() {
           return reject();
         }
       }));

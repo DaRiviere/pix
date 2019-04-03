@@ -40,7 +40,7 @@ describe('Unit | Route | index', function() {
     beforeEach(function() {
 
       storeServiceStub = {
-        findRecord: sinon.stub().resolves(EmberObject.create({ organizations: [] }))
+        queryRecord: sinon.stub().resolves(EmberObject.create({ organizations: [] }))
       };
       this.register('service:store', Service.extend(storeServiceStub));
       this.inject.service('store', { as: 'store' });
@@ -93,14 +93,13 @@ describe('Unit | Route | index', function() {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledOnce(storeServiceStub.findRecord);
-        sinon.assert.calledWith(storeServiceStub.findRecord, 'user', 1435);
+        sinon.assert.calledOnce(storeServiceStub.queryRecord);
       });
     });
 
     it('should redirect to board when the user is linked to an organization', function() {
       // Given
-      storeServiceStub.findRecord.resolves(EmberObject.create({
+      storeServiceStub.queryRecord.resolves(EmberObject.create({
         organizations: [EmberObject.create()]
       }));
 
@@ -117,4 +116,3 @@ describe('Unit | Route | index', function() {
     });
   });
 });
-
