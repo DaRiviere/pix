@@ -142,6 +142,10 @@ class Assessment {
     return this.type === types.PLACEMENT;
   }
 
+  isCompetenceEvaluation() {
+    return this.type === type.COMPETENCE_EVALUATION;
+  }
+
   canBeScored() {
     return (this.isPlacement() || this.isCertification()) && this.isCompleted();
   }
