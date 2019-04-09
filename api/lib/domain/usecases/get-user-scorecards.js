@@ -26,7 +26,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       name: competence.name,
       index: competence.index,
       area: competence.area,
-      courseId: competence.courseId,
+      competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
       level: _getCompetenceLevel(totalEarnedPixByCompetence),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence)

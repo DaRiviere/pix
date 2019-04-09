@@ -117,7 +117,7 @@ describe('Acceptance | Controller | users-controller-get-user-scorecards', () =>
             attributes: {
               name: competence.fields.Titre,
               index: competence.fields['Sous-domaine'],
-              'course-id': competence.fields.courseId,
+              'competence-id': competenceId,
               'earned-pix': knowledgeElement.earnedPix,
               level: Math.round(knowledgeElement.earnedPix/8),
               'pix-score-ahead-of-next-level': knowledgeElement.earnedPix,

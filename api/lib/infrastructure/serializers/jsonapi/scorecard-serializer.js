@@ -7,7 +7,7 @@ module.exports = {
       attributes: [
         'name',
         'index',
-        'courseId',
+        'competenceId',
         'area',
         'earnedPix',
         'level',

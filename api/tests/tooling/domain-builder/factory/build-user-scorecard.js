@@ -7,7 +7,7 @@ module.exports = function buildUserScorecard(
     // attributes
     name = faker.random.word(),
     index = `${faker.random.number()}.${faker.random.number()}`,
-    courseId = faker.random.uuid(),
+    competenceId = faker.random.uuid(),
     earnedPix = `${faker.random.number()}`,
     level = `${faker.random.number()}`,
     pixScoreAheadOfNextLevel = `${faker.random.number()}`,
@@ -20,7 +20,7 @@ module.exports = function buildUserScorecard(
     // attributes
     name,
     index,
-    courseId,
+    competenceId,
     earnedPix,
     level,
     pixScoreAheadOfNextLevel,
