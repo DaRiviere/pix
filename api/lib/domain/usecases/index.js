@@ -94,6 +94,7 @@ module.exports = injectDependencies({
   getUserCertification: require('./get-user-certification'),
   getUserCertificationWithResultTree: require('./get-user-certification-with-result-tree'),
   getUserCertificationCenterMemberships: require('./get-user-certification-center-memberships'),
+  getUserOrganizations: require('./get-user-organizations'),
   getUserPixScore: require('./get-user-pix-score'),
   getUserScorecards: require('./get-user-scorecards'),
   getUserWithMemberships: require('./get-user-with-memberships'),

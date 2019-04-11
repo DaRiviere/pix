@@ -150,19 +150,18 @@ class ProfileSerializer extends JSONAPISerializer {
 
   _serializeOrganizationIncluded(model, included) {
     for (const organization of model.organizations) {
-      const organizationJson = organization.toJSON();
       included.push({
-        'id': organizationJson.id,
+        'id': organization.id,
         'type': 'organizations',
         attributes: {
-          'name': organizationJson.name,
-          'type': organizationJson.type,
-          'code': organizationJson.code
+          'name': organization.name,
+          'type': organization.type,
+          'code': organization.code
         },
         relationships: {
           snapshots: {
             links: {
-              related: `/organizations/${organizationJson.id}/snapshots`
+              related: `/organizations/${organization.id}/snapshots`
             }
           }
         }

@@ -24,7 +24,6 @@ describe('Unit | Serializer | organization-serializer', () => {
             'logo-url': organization.logoUrl,
           },
           relationships: {
-            user: { data: null },
             memberships: {
               links: {
                 related: `/organizations/${organization.id}/memberships`
@@ -38,32 +37,5 @@ describe('Unit | Serializer | organization-serializer', () => {
       });
     });
 
-    it('should include serialized user data when organization has a user', () => {
-      // given
-      const organization = domainBuilder.buildOrganization.withUser();
-
-      // when
-      const serializedOrganization = serializer.serialize(organization);
-
-      // then
-      expect(serializedOrganization.data.relationships.user).to.deep.equal({
-        data: {
-          id: '1',
-          type: 'users'
-        }
-      });
-      expect(serializedOrganization.included).to.deep.equal([
-        {
-          id: '1',
-          type: 'users',
-          attributes: {
-            'first-name': 'Jean',
-            'last-name': 'Bono',
-            'email': 'jean.bono@example.net'
-          }
-        },
-      ]);
-    });
   });
 });
-

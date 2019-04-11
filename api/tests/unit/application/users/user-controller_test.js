@@ -19,6 +19,7 @@ const membershipSerializer = require('../../../../lib/infrastructure/serializers
 const scorecardSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -498,7 +499,7 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getPixScore(request, hFake);
+      await userController.getPixScore(request);
 
       // then
       expect(usecases.getUserPixScore).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
@@ -531,11 +532,37 @@ describe('Unit | Controller | user-controller', () => {
       };
 
       // when
-      await userController.getScorecards(request, hFake);
+      await userController.getScorecards(request);
 
       // then
       expect(usecases.getUserScorecards).to.have.been.calledWith({ authenticatedUserId, requestedUserId });
 
+    });
+  });
+
+  describe('#getOrganizations', () => {
+    let request;
+
+    beforeEach(() => {
+      request = {
+        auth: { credentials: { userId: 1 } },
+        params: { id: '1' }
+      };
+
+      sinon.stub(usecases, 'getUserOrganizations');
+      sinon.stub(organizationSerializer, 'serialize');
+    });
+
+    it('should call the expected usecase', async () => {
+      // given
+      usecases.getUserOrganizations.withArgs({ authenticatedUserId: '1', requestedUserId: '1' }).resolves([]);
+      organizationSerializer.serialize.withArgs([]).returns('ok');
+
+      // when
+      const response = await userController.getOrganizations(request);
+
+      // then
+      expect(response).to.be.equal('ok');
     });
   });
 });

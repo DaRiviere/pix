@@ -43,7 +43,7 @@ async function create(request, h) {
   snapshot.testsFinished = testsFinished;
   const snapshotId = await snapshotService.create(snapshot, user, serializedProfile);
   const serializedSnapshot = await snapshotSerializer.serialize({ id: snapshotId });
-  
+
   return h.response(serializedSnapshot).created();
 }
 

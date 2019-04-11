@@ -466,25 +466,22 @@ describe('Acceptance | Application | organization-controller', () => {
       it('should return the matching organization as JSON API', () => {
         // given
         const expectedResult = {
-          'data': {
-            'attributes': {
-              'code': organization.code,
-              'name': organization.name,
-              'type': organization.type,
+          data: {
+            attributes: {
+              code: organization.code,
+              name: organization.name,
+              type: organization.type,
               'logo-url': organization.logoUrl,
             },
-            'id': organization.id.toString(),
-            'relationships': {
-              'user': {
-                'data': null,
-              },
-              'memberships': {
-                'links': {
-                  'related': `/organizations/${organization.id}/memberships`
+            id: organization.id.toString(),
+            relationships: {
+              memberships: {
+                links: {
+                  related: `/organizations/${organization.id}/memberships`
                 }
               }
             },
-            'type': 'organizations'
+            type: 'organizations'
           }
         };
 

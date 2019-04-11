@@ -8,7 +8,6 @@ class Organization {
     type,
     logoUrl,
     // includes
-    user,
     memberships = [],
     targetProfileShares = [],
     // references
@@ -20,7 +19,6 @@ class Organization {
     this.type = type;
     this.logoUrl = logoUrl;
     // includes
-    this.user = user;
     this.memberships = memberships;
     this.targetProfileShares = targetProfileShares;
     // references

@@ -5,6 +5,7 @@ const pixScoreSerializer = require('../../infrastructure/serializers/jsonapi/pix
 const profileSerializer = require('../../infrastructure/serializers/jsonapi/profile-serializer');
 const scorecardSerializer = require('../../infrastructure/serializers/jsonapi/scorecard-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 
 const profileService = require('../../domain/services/profile-service');
 const tokenService = require('../../domain/services/token-service');
@@ -144,5 +145,13 @@ module.exports = {
     const requestedUserId = request.params.id;
     return usecases.getUserScorecards({ authenticatedUserId, requestedUserId })
       .then(scorecardSerializer.serialize);
+  },
+
+  getOrganizations(request) {
+    const authenticatedUserId = request.auth.credentials.userId.toString();
+    const requestedUserId = request.params.id;
+    
+    return usecases.getUserOrganizations({ authenticatedUserId, requestedUserId })
+      .then(organizationSerializer.serialize);
   },
 };
