@@ -25,7 +25,7 @@ module.exports = [
   require('./application/saml'),
   require('./application/sessions'),
   require('./application/simulateErrors'),
-  require('./application/smartPlacementProgressions'),
+  require('./application/progressions'),
   require('./application/snapshots'),
   require('./application/users'),
 ];
