@@ -11,7 +11,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
   }
 
   const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId }),
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId, includeAssessments: true }),
     competenceRepository.list(),
   ]);
 
@@ -29,7 +29,8 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       competenceId: competence.id,
       earnedPix: totalEarnedPixByCompetence,
       level: _getCompetenceLevel(totalEarnedPixByCompetence),
-      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence)
+      pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence),
+      status: _getStatus(KEgroup)
     };
   });
 };
@@ -41,4 +42,18 @@ function _getCompetenceLevel(earnedPix) {
 
 function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % NB_PIX_BY_LEVEL;
+}
+
+function _getStatus(knowledgeElements) {
+  if (_.isEmpty(knowledgeElements)) {
+    return 'NOT_STARTED';
+  }
+
+  const someCompetenceEvaluationsStarted = _.some(knowledgeElements, { 'type': 'COMPETENCE_EVALUATION', 'state': 'started' });
+
+  if (someCompetenceEvaluationsStarted) {
+    return 'STARTED';
+  }
+
+  return 'COMPLETED';
 }
