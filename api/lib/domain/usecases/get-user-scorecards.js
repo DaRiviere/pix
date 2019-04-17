@@ -4,17 +4,17 @@ const { UserNotAuthorizedToAccessEntity } = require('../errors');
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 
-module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository }) => {
+module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKnowledgeElementRepository, competenceRepository, competenceEvaluationRepository }) => {
 
   if (authenticatedUserId !== requestedUserId) {
     throw new UserNotAuthorizedToAccessEntity();
   }
 
-  const [userKEList, competenceTree] = await Promise.all([
-    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId, includeAssessments: true }),
+  const [userKEList, competenceTree, competenceEvaluations] = await Promise.all([
+    smartPlacementKnowledgeElementRepository.findUniqByUserId({ userId: requestedUserId, includeAssessments: false }),
     competenceRepository.list(),
+    competenceEvaluationRepository.findByUserId(requestedUserId),
   ]);
-
   const sortedKEGroupedByCompetence = _.groupBy(userKEList, 'competenceId');
 
   return _.map(competenceTree, (competence) => {
@@ -30,7 +30,7 @@ module.exports = async ({ authenticatedUserId, requestedUserId, smartPlacementKn
       earnedPix: totalEarnedPixByCompetence,
       level: _getCompetenceLevel(totalEarnedPixByCompetence),
       pixScoreAheadOfNextLevel: _getPixScoreAheadOfNextLevel(totalEarnedPixByCompetence),
-      status: _getStatus(KEgroup)
+      status: _getStatus(KEgroup, competence.id, competenceEvaluations)
     };
   });
 };
@@ -44,16 +44,16 @@ function _getPixScoreAheadOfNextLevel(earnedPix) {
   return earnedPix % NB_PIX_BY_LEVEL;
 }
 
-function _getStatus(knowledgeElements) {
+function _getStatus(knowledgeElements, competenceId, competenceEvaluation) {
   if (_.isEmpty(knowledgeElements)) {
     return 'NOT_STARTED';
   }
 
-  const someCompetenceEvaluationsStarted = _.some(knowledgeElements, { 'type': 'COMPETENCE_EVALUATION', 'state': 'started' });
-
-  if (someCompetenceEvaluationsStarted) {
-    return 'STARTED';
+  const competenceEvaluationForCompetence = _.find(competenceEvaluation, { competenceId });
+  const stateOfAssessment = _.get(competenceEvaluationForCompetence, 'assessment.state');
+  if (stateOfAssessment === 'completed') {
+    return 'COMPLETED';
   }
+  return 'STARTED';
 
-  return 'COMPLETED';
 }
